@@ -55,6 +55,9 @@
 <script>
 export default {
   name: "Leave",
+  props: {
+    leaveRequests: Array
+  },
   data() {
     return {
       companyLeave: [
@@ -80,6 +83,21 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    // if (this.leaveRequests.length > 0) {
+    //   this.leaveRequests.forEach(request => {
+    //       const status = request.outcome;
+    //     if ((request.type === "annual" || request.type === "birthday")) {
+	// 		this.companyLeave.forEach(leave => {
+	// 			if (leave) {
+					
+	// 			}
+	// 		});
+    //       this.companyLeave.status += 1;
+    //     }
+    //   });
+    // }
   }
 };
 </script>
