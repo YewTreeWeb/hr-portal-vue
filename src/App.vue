@@ -41,8 +41,15 @@ export default {
     LeaveRequest
   },
   mounted() {
-    if (localStorage.getItem("formValues")) {
-      this.leaveRequests.push(JSON.parse(localStorage.getItem("formValues")));
+    if (
+      localStorage.getItem("formValues") &&
+      typeof localStorage !== "undefined"
+    ) {
+      const savedRequests = JSON.parse(localStorage.getItem("formValues"));
+      savedRequests.forEach(saved => {
+        this.leaveRequests.push(saved);
+      });
+      console.log("localStorage is mounted");
     }
   }
 };
