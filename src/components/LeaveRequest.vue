@@ -74,7 +74,13 @@
                 reponse?
               </p>
               <div class="control">
-                <button class="button is-primary" type="submit">Submit</button>
+                <button
+                  class="button is-primary"
+                  type="submit"
+                  @click="formSubmit(days, type, status)"
+                >
+                  Submit
+                </button>
               </div>
               <ul v-if="this.errors">
                 <li v-if="errors.submit">
@@ -98,6 +104,7 @@
 </template>
 
 <script>
+import localforage from "localforage";
 export default {
   name: "LeaveRequest",
   props: {
@@ -118,6 +125,16 @@ export default {
     };
   },
   methods: {
+    formSubmit(days, type, status) {
+      console.log("clicked");
+      console.log({ days, type, status });
+      this.$emit("submittedValues", {
+        days,
+        type,
+        status
+      });
+      console.log("emitted");
+    },
     submitRequest(payload) {
       if (
         this.date !== "" &&
@@ -132,7 +149,7 @@ export default {
           outcome: this.status
         };
         this.leaveRequests.push(formValues);
-        localStorage.setItem("formValues", JSON.stringify(this.leaveRequests));
+        localforage.setItem("formValues", this.leaveRequests);
         payload.target.reset();
       } else {
         this.errors.submit = !this.errors.submit;

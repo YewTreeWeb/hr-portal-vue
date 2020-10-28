@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
-      <div class="columns is-multiline">
+      <div class="columns is-multiline" v-if="!this.error">
         <div class="column is-12">
           <h2>{{ title }}</h2>
         </div>
@@ -31,6 +31,7 @@
           <p>There are currently no leave requests</p>
         </div>
       </div>
+      <p v-else>{{ this.error }}</p>
     </div>
   </section>
 </template>
@@ -40,7 +41,8 @@ import dayjs from "dayjs";
 export default {
   name: "LeaveLog",
   props: {
-    leaveRequests: Array
+    leaveRequests: Array,
+    error: String
   },
   data() {
     return {
@@ -53,8 +55,8 @@ export default {
         return dayjs(date).format("DD/MM/YYYY");
       }
     },
-    update() {
-      this.$refs.status.setAttribule("contenteditable", true);
+    update(e) {
+      e.target.closest().setAttribule("contenteditable", true);
       this.$refs.days.setAttribule("contenteditable", true);
     }
   }
