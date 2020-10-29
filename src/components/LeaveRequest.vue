@@ -113,6 +113,7 @@ export default {
   data() {
     return {
       title: "Leave Request",
+      id: 0,
       date: "",
       days: "",
       type: "",
@@ -126,14 +127,13 @@ export default {
   },
   methods: {
     formSubmit(days, type, status) {
-      console.log("clicked");
-      console.log({ days, type, status });
-      this.$emit("submittedValues", {
-        days,
-        type,
-        status
-      });
-      console.log("emitted");
+      if (this.days !== "" && this.type !== "null" && this.status !== "null") {
+        this.$emit("submittedValues", {
+          days,
+          type,
+          status
+        });
+      }
     },
     submitRequest(payload) {
       if (
@@ -143,14 +143,16 @@ export default {
         this.status !== "null"
       ) {
         const formValues = {
+          id: this.id,
           submitted: this.date,
-          days: Number(this.days),
+          days: this.days,
           type: this.type,
-          outcome: this.status
+          status: this.status
         };
         this.leaveRequests.push(formValues);
         localforage.setItem("formValues", this.leaveRequests);
         payload.target.reset();
+        this.id += 1;
       } else {
         this.errors.submit = !this.errors.submit;
       }

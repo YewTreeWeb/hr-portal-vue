@@ -2,17 +2,22 @@
   <div id="app">
     <Hero :title="heading" :subtitle="`${name} - ${role} at ${company}`" />
     <Leave :companyLeave="companyLeave" />
-    <LeaveLog :leaveRequests="leaveRequests" :error="error" />
+    <LeaveLog
+      :leaveRequests="leaveRequests"
+      :error="error"
+      @delete="deleteRequest"
+    />
     <LeaveRequest
       :leaveRequests="leaveRequests"
-      :submittedRequests="submittedRequests"
       @submittedValues="formSubmitted"
     />
+    <button @click="checkStoredKey">Check if indexedDB</button>
   </div>
 </template>
 
 <script>
 import localforage from "localforage";
+import { openDB } from "idb";
 import Hero from "./components/Hero";
 import Leave from "./components/Leave";
 import LeaveLog from "./components/LeaveLog";
@@ -61,7 +66,7 @@ export default {
         }
       ],
       leaveRequests: [],
-      submittedRequests: [],
+      localStorageKey: false,
       error: ""
     };
   },
@@ -72,71 +77,99 @@ export default {
     LeaveRequest
   },
   methods: {
+    updateValues(el) {
+      const days = Number(el.days);
+      if (el.type === "annual" || el.type === "birthday") {
+        const leaveType =
+          el.type === "annual" ? this.companyLeave[0] : this.companyLeave[1];
+        if (el.status === "approved") {
+          leaveType.approved = Number(leaveType.approved) + days;
+          leaveType.remaining = Number.isInteger(leaveType.remaining)
+            ? leaveType.remaining - days
+            : (leaveType.remaining - days).toFixed(1);
+        } else {
+          leaveType.declined = Number(leaveType.declined) + days;
+        }
+      } else if (el.type === "sick") {
+        this.companyLeave[2].days = Number(this.companyLeave[2].days) + days;
+      } else if (el.type === "medical") {
+        this.companyLeave[3].days = Number(this.companyLeave[3].days) + days;
+      }
+    },
     formSubmitted(payload) {
       console.log(payload);
+      this.updateValues(payload);
+    },
+    deleteRequest(payload) {
+      this.leaveRequests = this.leaveRequests.filter(request => {
+        return request.id !== payload.id;
+      });
+      localforage.setItem("formValues", this.leaveRequests);
+    },
+    async checkStoredKey() {
+      const storeName = "keyvaluepairs";
+      const key = "formValues";
+      const db = await openDB("localforage");
+      if (db.objectStoreNames.contains(storeName)) {
+        const tx = db.transaction(storeName);
+        const store = await tx.objectStore(storeName);
+        const checkKey = await store.get(key);
+        const checkKeys = await store.getAllKeys();
+
+        if (checkKey !== undefined) {
+          this.localStorageKey = !this.localStorageKey;
+        }
+
+        if (process.env.NODE_ENV !== "production" && window.console) {
+          console.log(db.objectStoreNames);
+          console.log({ checkKeys, checkKey });
+          console.log("localkey is", this.localStorageKey);
+        }
+      }
     }
   },
   mounted() {
-    if (typeof localStorage !== "undefined") {
-      const savedRequests = async () => {
-        const savedRequest = await localforage.getItem("formValues");
+    this.checkStoredKey()
+      .then(() => {
+        if (typeof localStorage !== "undefined" && this.localStorageKey) {
+          const savedRequests = async () => {
+            const savedRequest = await localforage.getItem("formValues");
 
-        // If there is an error, display error message
-        if (savedRequest === null) {
-          throw new Error("Can't get saved form values.");
-        }
+            // If there is an error, display error message
+            if (savedRequest === null) {
+              throw new Error("Can't get saved form values.");
+            }
 
-        return savedRequest;
-      };
-      savedRequests()
-        .then(values => {
-          const savedValues = values;
-          savedValues.forEach(saved => {
-            this.leaveRequests.push(saved);
-          });
-          console.log("localforage is mounted");
-        })
-        .then(() => {
-          // Get the saved requests and update the companyLeave values
-          const annual = this.companyLeave[0];
-          const birthday = this.companyLeave[1];
-          if (this.leaveRequests.length > 0) {
-            this.leaveRequests.forEach(request => {
-              if (request.type === "annual") {
-                if (request.outcome === "approved") {
-                  annual.approved = Number(annual.approved) + request.days;
-                  annual.remaining = Number.isInteger(annual.remaining)
-                    ? annual.remaining - request.days
-                    : (annual.remaining - request.days).toFixed(2);
-                } else {
-                  annual.declined = Number(annual.declined) + request.days;
-                }
-              } else if (request.type === "birthday") {
-                if (request.outcome === "approved") {
-                  birthday.approved = Number(birthday.approved) + request.days;
-                  birthday.remaining = Number.isInteger(birthday.remaining)
-                    ? birthday.remaining - request.days
-                    : (birthday.remaining - request.days).toFixed(2);
-                } else {
-                  birthday.declined = Number(birthday.declined) + request.days;
-                }
-              } else if (request.type === "sick") {
-                this.companyLeave[2].days =
-                  Number(this.companyLeave[2].days) + request.days;
-              } else if (request.type === "medical") {
-                this.companyLeave[3].days =
-                  Number(this.companyLeave[3].days) + request.days;
+            return savedRequest;
+          };
+          savedRequests()
+            .then(values => {
+              const savedValues = values;
+              savedValues.forEach(saved => {
+                this.leaveRequests.push(saved);
+              });
+              if (process.env.NODE_ENV !== "production" && window.console) {
+                console.log("localforage is mounted");
+              }
+            })
+            .then(() => {
+              // Get the saved requests and update the companyLeave values
+              if (this.leaveRequests.length > 0) {
+                console.log(this.leaveRequests);
+                this.leaveRequests.forEach(request => {
+                  this.updateValues(request);
+                });
+              }
+            })
+            .catch(error => {
+              this.error = error.message;
+              if (window.console) {
+                console.error(error);
               }
             });
-          }
-        })
-        .catch(error => {
-          this.error = error.message;
-          if (window.console) {
-            console.error(error);
-          }
-        });
-    }
+        }
+      })
+      .catch(error => console.error(error));
   }
 };
 </script>

@@ -22,9 +22,12 @@
             </p>
             <p class="request__type">{{ request.type }}</p>
             <p class="request__status" ref="status" contenteditable="false">
-              {{ request.outcome }}
+              {{ request.status }}
             </p>
-            <p><span @click="update">Update</span> | <span>Delete</span></p>
+            <p>
+              <span @click="update(index)">Update</span> |
+              <span @click="deleteLog(index)">Delete</span>
+            </p>
           </div>
         </div>
         <div class="column" v-else>
@@ -55,9 +58,11 @@ export default {
         return dayjs(date).format("DD/MM/YYYY");
       }
     },
-    update(e) {
-      e.target.closest().setAttribule("contenteditable", true);
-      this.$refs.days.setAttribule("contenteditable", true);
+    update(id) {
+      this.$emit("update", { id });
+    },
+    deleteLog(id) {
+      this.$emit("delete", { id });
     }
   }
 };

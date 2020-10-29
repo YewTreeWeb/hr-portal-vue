@@ -24,7 +24,7 @@
                 }}</span>
                 days declined
               </li>
-              <li v-if="leave.remaining">
+              <li v-if="leave.type === 'annual' || leave.type === 'birthday'">
                 <span class="leave__remaining" ref="leaveRemaining">{{
                   leave.remaining
                 }}</span>
@@ -64,21 +64,6 @@ export default {
       return capitalFirst + noCaseTail;
     }
   },
-  //   watch: {
-  //     submittedRequests: {
-  //       // Will fire as soon as the component is created
-  //       immediate: false,
-  //       // This will let Vue know to look inside the array
-  //       deep: true,
-  //       // We have to move our method to a handler field
-  //       handler() {
-  //         console.log("The array items have changed!");
-  //         console.log(this.submittedRequests);
-  //         this.submittedRequests.forEach(submitted => {});
-  //         this.submittedRequests = [];
-  //       }
-  //     }
-  //   },
   created() {
     if (process.env.NODE_ENV !== "production") {
       console.log("created hook");
