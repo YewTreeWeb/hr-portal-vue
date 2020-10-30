@@ -4,7 +4,7 @@
       <div class="columns">
         <div class="column">
           <h2>{{ title }}</h2>
-          <form action="#" id="addLeave" @submit.prevent="submitRequest">
+          <form id="addLeave" @submit.prevent="submitRequest">
             <div class="field">
               <label class="label">Date Submitted</label>
               <div class="control">
@@ -33,7 +33,9 @@
                   @blur="validateInput"
                 />
               </div>
-              <p class="help">The amount of leave days requests</p>
+              <p class="help">The amount of leave days requested</p>
+            </div>
+            <div class="field">
               <label class="label">Leave Type</label>
               <div class="control">
                 <div class="select">
@@ -52,6 +54,7 @@
                   </select>
                 </div>
               </div>
+              <p class="help">What type of leave was requested?</p>
               <label class="label">Outcome</label>
               <div class="control">
                 <div class="select">
@@ -73,6 +76,8 @@
                 Has the leave request been approved/denied or still wating
                 reponse?
               </p>
+            </div>
+            <div class="field">
               <div class="control">
                 <button
                   class="button is-primary"
@@ -82,7 +87,7 @@
                   Submit
                 </button>
               </div>
-              <ul v-if="this.errors">
+              <ul class="errors" v-if="this.errors">
                 <li v-if="errors.submit">
                   ERROR! Please submit valid data. E.g Do not leave blank fields
                 </li>
@@ -177,4 +182,20 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#addLeave {
+  @include margin(30px null);
+  .field {
+    width: 100%;
+    .help {
+      @include margin(null null 15px);
+    }
+  }
+}
+.errors {
+  color: v(colour-error);
+  > li {
+    color: inherit;
+  }
+}
+</style>

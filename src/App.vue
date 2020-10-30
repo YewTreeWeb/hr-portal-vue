@@ -6,12 +6,12 @@
       :leaveRequests="leaveRequests"
       :error="error"
       @delete="deleteRequest"
+      @update="updateRequest"
     />
     <LeaveRequest
       :leaveRequests="leaveRequests"
       @submittedValues="formSubmitted"
     />
-    <button @click="checkStoredKey">Check if indexedDB</button>
   </div>
 </template>
 
@@ -106,6 +106,24 @@ export default {
       });
       localforage.setItem("formValues", this.leaveRequests);
     },
+    updateRequest(payload) {
+      this.leaveRequests.forEach(request => {
+        if (request.id === payload.id) {
+          if (request.days !== payload.days && payload.days !== "") {
+            request.days = payload.days;
+          } else if (
+            request.status !== payload.status &&
+            payload.status !== ""
+          ) {
+            request.status = payload.status;
+          }
+          if (process.env.NODE_ENV !== "production" && window.console) {
+            console.log(request);
+          }
+        }
+      });
+      localforage.setItem("formValues", this.leaveRequests);
+    },
     async checkStoredKey() {
       const storeName = "keyvaluepairs";
       const key = "formValues";
@@ -182,5 +200,12 @@ export default {
   color: inherit;
   @include padding(null null 30px);
   min-height: 100vh;
+  @each $heading, $size in $headings {
+    #{$heading} {
+      @include make-font-size($size);
+      font-family: $font-family-header;
+      font-weight: $weight;
+    }
+  }
 }
 </style>

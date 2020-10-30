@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="section is-center">
     <div class="container">
       <div class="columns">
         <div class="column" v-for="(leave, index) in companyLeave" :key="index">
@@ -31,7 +31,7 @@
                 days remaining
               </li>
             </ul>
-            <ul v-else>
+            <ul class="leave" v-else>
               <li>
                 <span class="leave__used" ref="leaveUsed">{{
                   leave.days
@@ -63,14 +63,23 @@ export default {
       const noCaseTail = string.slice(1, string.length);
       return capitalFirst + noCaseTail;
     }
-  },
-  created() {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("created hook");
-    }
-    this.$nextTick(() => {});
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.is-center {
+  text-align: center;
+}
+.leave {
+  @include margin(20px null null);
+  > li {
+    @include margin(10px null 5px);
+    &:first-child {
+      font-weight: $weight-heavy;
+      font-size: _heading((h6, 1));
+      margin-top: 0;
+    }
+  }
+}
+</style>

@@ -22,4 +22,8 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.hero {
+  background-color: v(colour-accent);
+}
+</style>
