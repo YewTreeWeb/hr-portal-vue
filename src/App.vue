@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <Hero :title="heading" :subtitle="`${name} - ${role} at ${company}`" />
+    <Hero
+      :title="heading"
+      :subtitle="`${name} - ${role} at ${company}`"
+      :notice="subheading"
+    />
     <Leave :companyLeave="companyLeave" />
     <LeaveLog
       :leaveRequests="leaveRequests"
@@ -12,6 +16,7 @@
       :leaveRequests="leaveRequests"
       @submittedValues="formSubmitted"
     />
+	<OfficeDetails />
   </div>
 </template>
 
@@ -22,17 +27,20 @@ import Hero from "./components/Hero";
 import Leave from "./components/Leave";
 import LeaveLog from "./components/LeaveLog";
 import LeaveRequest from "./components/LeaveRequest";
+import OfficeDetails from "./components/OfficeDetails";
 
 export default {
   name: "App",
   data() {
     return {
       heading: "HR Portal",
+      subheading: "",
       name: "Mathew Teague",
       role: "UI Developer",
       hired: "6th July 2020",
       department: "Development",
       company: "Textlocal",
+      leaveStartDate: "1-4", // Day and month
       office: {
         area: "Malvern",
         link: "#"
@@ -74,7 +82,8 @@ export default {
     Hero,
     Leave,
     LeaveLog,
-    LeaveRequest
+	LeaveRequest,
+	OfficeDetails
   },
   methods: {
     updateValues(el) {
@@ -144,6 +153,24 @@ export default {
           console.log("localkey is", this.localStorageKey);
         }
       }
+    },
+    resetData() {
+      localforage
+        .clear()
+        .then(() => {
+          // Run this code once the database has been entirely deleted.
+          this.subheading =
+            "Your company leave has been reset for the start of the new year";
+          if (process.env.NODE_ENV !== "production" && window.console) {
+            console.log("Database is now empty.");
+          }
+        })
+        .catch(error => {
+          // This code runs if there were any errors
+          if (window.console) {
+            console.error(error);
+          }
+        });
     }
   },
   mounted() {
@@ -151,11 +178,20 @@ export default {
       .then(() => {
         if (typeof localStorage !== "undefined" && this.localStorageKey) {
           const savedRequests = async () => {
-            const savedRequest = await localforage.getItem("formValues");
+            const currentDate = `${new Date().getDate()}-${new Date().getMonth() +
+              1}`;
+            let savedRequest;
 
-            // If there is an error, display error message
-            if (savedRequest === null) {
-              throw new Error("Can't get saved form values.");
+            if (currentDate !== this.leaveStartDate) {
+              savedRequest = await localforage.getItem("formValues");
+
+              // If there is an error, display error message
+              if (savedRequest === null) {
+                throw new Error("Can't get saved form values.");
+              }
+            } else {
+              this.resetData();
+              savedRequest = [];
             }
 
             return savedRequest;
@@ -187,7 +223,11 @@ export default {
             });
         }
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        if (window.console) {
+          console.error(error);
+        }
+      });
   }
 };
 </script>
