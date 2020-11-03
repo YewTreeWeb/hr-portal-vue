@@ -16,7 +16,11 @@
       :leaveRequests="leaveRequests"
       @submittedValues="formSubmitted"
     />
-	<OfficeDetails />
+    <OfficeDetails
+      :office="office.area"
+      :url="office.link"
+      :location="[location.lat, location.lng]"
+    />
   </div>
 </template>
 
@@ -82,8 +86,8 @@ export default {
     Hero,
     Leave,
     LeaveLog,
-	LeaveRequest,
-	OfficeDetails
+    LeaveRequest,
+    OfficeDetails
   },
   methods: {
     updateValues(el) {
