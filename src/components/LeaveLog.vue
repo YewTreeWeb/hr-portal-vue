@@ -39,13 +39,16 @@
             </p>
             <p class="request__actions">
               <button
-                class="button is-text"
+                class="button is-text request__update"
                 @click="update(index)"
                 :disabled="!editied"
               >
                 Update
               </button>
-              <button class="button is-text" @click="deleteLog(index)">
+              <button
+                class="button is-text request__delete"
+                @click="deleteLog(index)"
+              >
                 Delete
               </button>
             </p>
