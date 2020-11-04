@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <Hero
-      :title="heading"
+      :title="title"
       :subtitle="`${name} - ${role} at ${company}`"
-      :notice="subheading"
+      :notice="heading"
     />
     <Leave :companyLeave="companyLeave" />
     <LeaveLog
@@ -16,11 +16,7 @@
       :leaveRequests="leaveRequests"
       @submittedValues="formSubmitted"
     />
-    <OfficeDetails
-      :office="office.area"
-      :url="office.link"
-      :location="[location.lat, location.lng]"
-    />
+    <OfficeDetails :darkmode="darkmode" />
   </div>
 </template>
 
@@ -37,22 +33,14 @@ export default {
   name: "App",
   data() {
     return {
-      heading: "HR Portal",
-      subheading: "",
+      title: "HR Portal",
+      heading: "",
       name: "Mathew Teague",
       role: "UI Developer",
       hired: "6th July 2020",
       department: "Development",
       company: "Textlocal",
       leaveStartDate: "1-4", // Day and month
-      office: {
-        area: "Malvern",
-        link: "#"
-      },
-      location: {
-        lat: 37.7749,
-        lng: -122.4194
-      },
       companyLeave: [
         {
           type: "annual",
@@ -79,7 +67,8 @@ export default {
       ],
       leaveRequests: [],
       localStorageKey: false,
-      error: ""
+      error: "",
+      darkmode: false
     };
   },
   components: {
@@ -145,7 +134,6 @@ export default {
         const tx = db.transaction(storeName);
         const store = await tx.objectStore(storeName);
         const checkKey = await store.get(key);
-        const checkKeys = await store.getAllKeys();
 
         if (checkKey !== undefined) {
           this.localStorageKey = !this.localStorageKey;
@@ -153,7 +141,7 @@ export default {
 
         if (process.env.NODE_ENV !== "production" && window.console) {
           console.log(db.objectStoreNames);
-          console.log({ checkKeys, checkKey });
+          console.log({ checkKey });
           console.log("localkey is", this.localStorageKey);
         }
       }
@@ -163,7 +151,7 @@ export default {
         .clear()
         .then(() => {
           // Run this code once the database has been entirely deleted.
-          this.subheading =
+          this.heading =
             "Your company leave has been reset for the start of the new year";
           if (process.env.NODE_ENV !== "production" && window.console) {
             console.log("Database is now empty.");
@@ -177,7 +165,7 @@ export default {
         });
     }
   },
-  mounted() {
+  async mounted() {
     this.checkStoredKey()
       .then(() => {
         if (typeof localStorage !== "undefined" && this.localStorageKey) {
@@ -237,6 +225,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import url("https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css");
 #app {
   font-family: quote(Barlow), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
