@@ -4,107 +4,93 @@
 // todo: There are too many colours. Reduce.
 $palette: (
   light: (
-    1: #f9faff,
-    2: #959cb1,
-    3: #6a6f82,
+    1: #ffffff,
+    2: #f8f7f2,
+    3: #dfe0eb,
+    4: #f0f1f7,
+    5: #9fa2b4
   ),
   dark: (
-    1: #16171b,
-    2: #1c1d22,
-    3: #292b32,
+    1: #262125,
+    2: #0d0d0d,
+    3: #131419,
+    4: #3b4252,
+    5: #1c1c24
   ),
-  primary: (
-    1: #ff5fa0,
-    2: #ff92be,
-    3: #ff2c82,
-    4: #ffe7f1,
+  accent: (
+    1: #88c0d0,
+    2: #5e81ac,
+    3: #4550e5
   ),
   alert: (
-    error: #ff5fa0,
-    warning: #ffc55a,
-    success: #1ec198,
-  ),
+    error: #d36b75
+  )
 );
 
 // Base colours.
 $colours: (
-  black: get-color(dark, 1),
+  black: get-color(dark, 2),
   white: get-color(light, 1),
-  grey: get-color(light, 3),
-  grey-dark: get-color(dark, 3),
-  grey-darker: get-color(dark, 2),
-  grey-light: get-color(light, 2),
-  accent: get-color(primary, 1),
-  accent-light: get-color(primary, 2),
-  accent-dark: get-color(primary, 3),
-  error: get-color(alert, error),
-  warning: get-color(alert, warning),
-  success: get-color(alert, success),
+  grey-dark: get-color(dark, 1),
+  grey-darker: get-color(dark, 3),
+  grey-light: get-color(light, 3),
+  grey-lighter: get-color(light, 4),
+  error: get-color(alert, error)
 ) !default;
 
 // Light mode colours.
 $light-colours: (
-  primary: get-color(light, 1),
-  secondary: get-color(light, 2),
+  primary: get-color(light, 2),
+  secondary: get-color(light, 1),
   text: get-color(dark, 2),
-  text-secondary: get-color(light, 3),
+  text-secondary: get-color(light, 1),
+  grey: get-color(light, 3),
+  accent: get-color(accent, 1),
+  accent-dark: get-color(accent, 2),
+  success: get-color(accent, 1)
 );
 
 // Dark mode colours.
 $dark-colours: (
-  primary: get-color(dark, 1),
-  secondary: get-color(dark, 2),
+  primary: get-color(dark, 3),
+  secondary: get-color(dark, 5),
   text: get-color(light, 1),
-  text-secondary: get-color(light, 2),
+  text-secondary: get-color(light, 3),
+  grey: get-color(dark, 4),
+  accent: get-color(accent, 3),
+  success: get-color(accent, 3)
 );
 
 /// Font
-$font-family: quote(Source Sans Pro), system-ui, sans-serif !default;
-$font-family-header: quote(Fira Sans), system-ui, sans-serif;
-$font-family-code: quote(Fira Code), Monaco, Consolas, quote(Andale Mono),
-  quote(DejaVu Sans Mono), monospace !default;
-$font-family-pre: quote(Courier 10 Pitch), Courier, monospace !default;
+$font-family: quote(Asap), system-ui, sans-serif !default;
+$font-family-header: quote(Ubuntu), system-ui, sans-serif;
 
 $headings: (
   h1: (
-    54px,
-    unset,
-    null,
-  ),
-  h2: (
-    38px,
     48px,
     null,
+    null
+  ),
+  h2: (
+    36px,
+    null,
+    null
   ),
   h3: (
-    32px,
-    42px,
+    24px,
     null,
+    null
   ),
   h4: (
-    24px,
-    34px,
-    -0.1px,
-  ),
-  h5: (
-    20px,
-    32px,
-    -0.1px,
-  ),
-  h6: (
     18px,
-    30px,
-    -0.1px,
+    null,
+    null
   ),
 ) !default;
 
-$font-md: 17px;
-$font-base: 16px;
-$font-sm: 14px;
-$font-xs: 12px;
+$font-base: 14px;
+$font-sm: 11px;
 
 $weight: 400;
-$weight-exlight: 200;
-$weight-light: 300;
+$weight-medium: 600;
 $weight-heavy: 700;
-$weight-exheavy: 900;

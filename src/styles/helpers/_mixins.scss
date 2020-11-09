@@ -31,7 +31,7 @@
 
 // If only for dark mode
 @mixin darkmode {
-  [data-theme='dark'] & {
+  #app.dark & {
     @content;
   }
 }

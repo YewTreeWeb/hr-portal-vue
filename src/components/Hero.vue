@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-large">
+  <div class="hero">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">{{ title }}</h1>
@@ -7,7 +7,7 @@
         <p v-if="notice" :class="{ show: notify }">{{ showNotify() }}</p>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
