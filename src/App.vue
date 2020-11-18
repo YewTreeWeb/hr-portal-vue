@@ -68,7 +68,7 @@ export default {
       leaveRequests: [],
       localStorageKey: false,
       error: "",
-      darkmode: false
+      darkmode: true
     };
   },
   components: {
