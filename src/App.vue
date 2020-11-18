@@ -1,22 +1,21 @@
 <template>
   <div id="app">
-    <Hero
-      :title="title"
-      :subtitle="`${name} - ${role} at ${company}`"
-      :notice="heading"
-    />
-    <Leave :companyLeave="companyLeave" />
-    <LeaveLog
-      :leaveRequests="leaveRequests"
-      :error="error"
-      @delete="deleteRequest"
-      @update="updateRequest"
-    />
-    <LeaveRequest
-      :leaveRequests="leaveRequests"
-      @submittedValues="formSubmitted"
-    />
-    <OfficeDetails :darkmode="darkmode" />
+    <Sidebar :title="title" />
+    <main>
+      <h2 id="top">Dashboard</h2>
+      <Hero />
+      <Leave :companyLeave="companyLeave" />
+      <LeaveLog
+        :leaveRequests="leaveRequests"
+        :error="error"
+        @delete="deleteRequest"
+        @update="updateRequest"
+      />
+      <LeaveRequest
+        :leaveRequests="leaveRequests"
+        @submittedValues="formSubmitted"
+      />
+    </main>
   </div>
 </template>
 
@@ -27,13 +26,13 @@ import Hero from "./components/Hero";
 import Leave from "./components/Leave";
 import LeaveLog from "./components/LeaveLog";
 import LeaveRequest from "./components/LeaveRequest";
-import OfficeDetails from "./components/OfficeDetails";
+import Sidebar from "./components/Sidebar";
 
 export default {
   name: "App",
   data() {
     return {
-      title: "HR Portal",
+      title: "HRPortal",
       heading: "",
       name: "Mathew Teague",
       role: "UI Developer",
@@ -76,7 +75,7 @@ export default {
     Leave,
     LeaveLog,
     LeaveRequest,
-    OfficeDetails
+    Sidebar
   },
   methods: {
     updateValues(el) {
@@ -225,19 +224,32 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css");
 #app {
-  font-family: quote(Barlow), system-ui, sans-serif;
+  font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: inherit;
-  @include padding(null null 30px);
   min-height: 100vh;
   @each $heading, $size in $headings {
     #{$heading} {
       @include make-font-size($size);
       font-family: $font-family-header;
-      font-weight: $weight;
+      font-weight: $weight-heavy;
+    }
+  }
+  @include flex(flex-start, center, row, false);
+  background-color: v(colour-grey-dark);
+  @include darkmode {
+    background-color: v(colour-black);
+  }
+  main {
+    background-color: v(colour-primary);
+    border-radius: 40px 0 0 40px;
+    @include padding(40px 6.3% 60px);
+    width: 90%;
+    > h2 {
+      font-size: _heading(h1);
+      line-height: 1;
     }
   }
 }
