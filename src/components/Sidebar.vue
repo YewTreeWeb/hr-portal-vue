@@ -30,6 +30,7 @@ export default {
   @include padding(25.4px 2% 60px);
   max-width: 453px;
   width: 100%;
+  min-height: 100vh;
   a {
     color: inherit;
   }

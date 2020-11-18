@@ -3,7 +3,7 @@
     <div class="container">
       <div class="columns">
         <div class="column" v-for="(leave, index) in companyLeave" :key="index">
-          <article>
+          <article class="card">
             <h3>{{ leave.type | capitalise }} Leave</h3>
             <ul class="leave" v-if="leave.available">
               <li>

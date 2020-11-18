@@ -1,20 +1,30 @@
 <template>
   <div id="app">
     <Sidebar :title="title" />
-    <main>
-      <h2 id="top">Dashboard</h2>
-      <Hero />
-      <Leave :companyLeave="companyLeave" />
-      <LeaveLog
-        :leaveRequests="leaveRequests"
-        :error="error"
-        @delete="deleteRequest"
-        @update="updateRequest"
-      />
-      <LeaveRequest
-        :leaveRequests="leaveRequests"
-        @submittedValues="formSubmitted"
-      />
+    <main class="main">
+      <section class="section columns">
+        <div class="column">
+          <h2 id="top">Dashboard</h2>
+          <Hero :title="name" />
+          <LeaveLog
+            :leaveRequests="leaveRequests"
+            :error="error"
+            @delete="deleteRequest"
+            @update="updateRequest"
+          />
+        </div>
+        <div class="column">
+          <LeaveRequest
+            :leaveRequests="leaveRequests"
+            @submittedValues="formSubmitted"
+          />
+        </div>
+      </section>
+      <section class="section columns">
+        <div class="column">
+          <Leave :companyLeave="companyLeave" />
+        </div>
+      </section>
     </main>
   </div>
 </template>
@@ -245,8 +255,10 @@ export default {
   main {
     background-color: v(colour-primary);
     border-radius: 40px 0 0 40px;
-    @include padding(40px 6.3% 60px);
-    width: 90%;
+    // @include padding(40px 6.3% 60px);
+    @include padding(null 6.3%);
+    width: 100%;
+    min-height: 100vh;
     > h2 {
       font-size: _heading(h1);
       line-height: 1;
