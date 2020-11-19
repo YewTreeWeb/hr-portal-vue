@@ -1,5 +1,5 @@
 <template>
-  <section class="section card">
+  <div class="card m-t-38">
     <div class="container">
       <div class="columns is-multiline" v-if="!this.error">
         <div class="column is-12">
@@ -60,7 +60,7 @@
       </div>
       <p v-else>{{ this.error }}</p>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -125,7 +125,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.card {
+  min-height: 539px;
+}
 .request {
   @include flex(center, space-between, row);
   border-bottom: 1px solid v(colour-grey-dark);

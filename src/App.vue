@@ -2,28 +2,28 @@
   <div id="app">
     <Sidebar :title="title" />
     <main class="main">
-      <section class="section columns">
-        <div class="column">
-          <h2 id="top">Dashboard</h2>
-          <Hero :title="name" />
-          <LeaveLog
-            :leaveRequests="leaveRequests"
-            :error="error"
-            @delete="deleteRequest"
-            @update="updateRequest"
-          />
-        </div>
-        <div class="column">
-          <LeaveRequest
-            :leaveRequests="leaveRequests"
-            @submittedValues="formSubmitted"
-          />
+      <section class="container">
+        <h2 id="top" class="m-b-38">Dashboard</h2>
+        <div class="columns">
+          <div class="column is-9-desktop">
+            <Hero />
+            <LeaveLog
+              :leaveRequests="leaveRequests"
+              :error="error"
+              @delete="deleteRequest"
+              @update="updateRequest"
+            />
+          </div>
+          <div class="column is-3-desktop p-l-30">
+            <LeaveRequest
+              :leaveRequests="leaveRequests"
+              @submittedValues="formSubmitted"
+            />
+          </div>
         </div>
       </section>
-      <section class="section columns">
-        <div class="column">
-          <Leave :companyLeave="companyLeave" />
-        </div>
+      <section class="container m-t-38">
+        <Leave :companyLeave="companyLeave" />
       </section>
     </main>
   </div>
@@ -43,12 +43,6 @@ export default {
   data() {
     return {
       title: "HRPortal",
-      heading: "",
-      name: "Mathew Teague",
-      role: "UI Developer",
-      hired: "6th July 2020",
-      department: "Development",
-      company: "Textlocal",
       leaveStartDate: "1-4", // Day and month
       companyLeave: [
         {
@@ -77,6 +71,7 @@ export default {
       leaveRequests: [],
       localStorageKey: false,
       error: "",
+      notification: "",
       darkmode: true
     };
   },
@@ -160,7 +155,7 @@ export default {
         .clear()
         .then(() => {
           // Run this code once the database has been entirely deleted.
-          this.heading =
+          this.notification =
             "Your company leave has been reset for the start of the new year";
           if (process.env.NODE_ENV !== "production" && window.console) {
             console.log("Database is now empty.");
@@ -255,11 +250,10 @@ export default {
   main {
     background-color: v(colour-primary);
     border-radius: 40px 0 0 40px;
-    // @include padding(40px 6.3% 60px);
-    @include padding(null 6.3%);
+    @include padding(40px null 60px);
     width: 100%;
     min-height: 100vh;
-    > h2 {
+    h2 {
       font-size: _heading(h1);
       line-height: 1;
     }

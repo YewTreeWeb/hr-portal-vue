@@ -1,22 +1,19 @@
-// Bourbon
+// Vendors
 @import '../../node_modules/bourbon/core/bourbon';
-
-// Bulma
 @import '../../node_modules/bulma/bulma.sass';
-
-// Include Media
 @import '../../node_modules/include-media/dist/include-media';
-
-// // Family.scss
-// @import '../../node_modules/family.scss/build/stylesheets/site.css';
-
-// System font
 @import '../../node_modules/system-font-css/system-font';
 
-// Site wide styles
+// Helper files
 @import 'helpers/functions';
 @import 'helpers/variables';
 @import 'helpers/mixins';
+
+// Base files for project
 @import 'base/breakpoints';
 @import 'base/colours';
 @import 'base/global';
+@import 'base/grid';
+
+// Components
+@import 'components/card';
