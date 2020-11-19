@@ -2,8 +2,8 @@
   <div id="app">
     <Sidebar :title="title" />
     <main class="main">
+      <Header />
       <section class="container">
-        <h2 id="top" class="m-b-38">Dashboard</h2>
         <div class="columns">
           <div class="column is-9-desktop">
             <Hero />
@@ -37,6 +37,7 @@ import Leave from "./components/Leave";
 import LeaveLog from "./components/LeaveLog";
 import LeaveRequest from "./components/LeaveRequest";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
 export default {
   name: "App",
@@ -80,7 +81,8 @@ export default {
     Leave,
     LeaveLog,
     LeaveRequest,
-    Sidebar
+    Sidebar,
+    Header
   },
   methods: {
     updateValues(el) {
@@ -253,10 +255,6 @@ export default {
     @include padding(40px null 60px);
     width: 100%;
     min-height: 100vh;
-    h2 {
-      font-size: _heading(h1);
-      line-height: 1;
-    }
   }
 }
 </style>
