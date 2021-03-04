@@ -34,12 +34,12 @@ export default {
         : "ckh3d7izg2jt019p9s269w8xa",
       office: {
         area: "Malvern Hills Science Park",
-        url: "https://textlocal.com/",
+        url: "https://textlocal.com/"
       },
       location: {
         lat: 52.104485,
-        long: -2.311467,
-      },
+        long: -2.311467
+      }
     };
   },
   methods: {
@@ -50,24 +50,23 @@ export default {
         container: "map",
         style: `mapbox://styles/matteague/${this.mapStyle}`,
         center: [long, lat],
-        zoom: 15,
+        zoom: 15
       });
       new mapboxgl.Marker(el).setLngLat([long, lat]).addTo(map);
     },
     showNotify() {
-      const currentDate = `${new Date().getDate()}-${
-        new Date().getMonth() + 1
-      }`;
+      const currentDate = `${new Date().getDate()}-${new Date().getMonth() +
+        1}`;
       if (currentDate === "1-4") {
         setTimeout(() => {
           this.notify = "";
         }, 8000);
       }
-    },
+    }
   },
   mounted() {
     this.createMap(this.location.long, this.location.lat);
-  },
+  }
 };
 </script>
 
