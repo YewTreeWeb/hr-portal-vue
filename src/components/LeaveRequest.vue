@@ -105,7 +105,7 @@ export default {
   },
   data() {
     return {
-      title: "Leave Request",
+      title: "Request Leave",
       id: 0,
       date: "",
       days: "",
@@ -172,7 +172,6 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  min-width: 479px;
   height: 100%;
 }
 #addLeave {

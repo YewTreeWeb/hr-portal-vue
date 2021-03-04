@@ -3,15 +3,15 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">Hello {{ name }}!</h1>
-        <p><strong>Office:</strong> {{ office.area }}</p>
+        <p><strong>Office:</strong>{{ office.area }}</p>
         <p>
           <strong>Company:</strong>
           <a :href="office.url" target="_blank" rel="noopener noreferrer">{{
             company
           }}</a>
         </p>
-        <p><strong>Role:</strong> {{ role }}</p>
-        <p><strong>Hired</strong> {{ hired }}</p>
+        <p><strong>Role:</strong>{{ role }}</p>
+        <p><strong>Hired:</strong>{{ hired }}</p>
       </div>
     </div>
   </div>
@@ -104,6 +104,16 @@ export default {
     left: 0;
     z-index: 2;
     @include padding(47px 38px);
+    h1 {
+      font-size: _heading(h1);
+    }
+    p {
+      font-size: _heading(h3);
+      line-height: 1.6;
+      strong {
+        margin-right: 6px;
+      }
+    }
   }
 }
 </style>
