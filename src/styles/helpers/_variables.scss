@@ -1,0 +1,112 @@
+// Colours
+
+// The color palette
+// todo: There are too many colours. Reduce.
+$palette: (
+  light: (
+    1: #ffffff,
+    2: #f8f7f2,
+    3: #dfe0eb,
+    4: #f0f1f7,
+    5: #9fa2b4
+  ),
+  dark: (
+    1: #262125,
+    2: #0d0d0d,
+    3: #131419,
+    4: #3b4252,
+    5: #1c1c24
+  ),
+  accent: (
+    1: #88c0d0,
+    2: #5e81ac,
+    3: #4550e5
+  ),
+  alert: (
+    error: #d36b75
+  )
+);
+
+// Base colours.
+$colours: (
+  black: get-color(dark, 2),
+  white: get-color(light, 1),
+  grey-dark: get-color(dark, 1),
+  grey-darker: get-color(dark, 3),
+  grey-light: get-color(light, 3),
+  grey-lighter: get-color(light, 4),
+  error: get-color(alert, error)
+) !default;
+
+// Light mode colours.
+$light-colours: (
+  primary: get-color(light, 2),
+  secondary: get-color(light, 1),
+  text: get-color(dark, 2),
+  text-secondary: get-color(light, 1),
+  grey: get-color(light, 3),
+  accent: get-color(accent, 1),
+  accent-dark: get-color(accent, 2),
+  success: get-color(accent, 1)
+);
+
+// Dark mode colours.
+$dark-colours: (
+  primary: get-color(dark, 3),
+  secondary: get-color(dark, 5),
+  text: get-color(light, 1),
+  text-secondary: get-color(light, 3),
+  grey: get-color(dark, 4),
+  accent: get-color(accent, 3),
+  success: get-color(accent, 3)
+);
+
+// Font
+$font-family: quote(Asap), system-ui, sans-serif !default;
+$font-family-header: quote(Ubuntu), system-ui, sans-serif;
+
+$headings: (
+  h1: (
+    48px,
+    null,
+    null
+  ),
+  h2: (
+    36px,
+    null,
+    null
+  ),
+  h3: (
+    24px,
+    null,
+    null
+  ),
+  h4: (
+    18px,
+    null,
+    null
+  )
+) !default;
+
+$font-base: 14px;
+$font-sm: 11px;
+
+$weight: 400;
+$weight-medium: 600;
+$weight-heavy: 700;
+
+// Classes
+$spaceamounts: (15, 17, 30, 35, 38);
+$sides: (top, bottom, left, right);
+
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m-#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px;
+    }
+
+    .p-#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px;
+    }
+  }
+}

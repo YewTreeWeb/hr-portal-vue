@@ -1,0 +1,45 @@
+// MSIE: Required for IEMobile.
+@-ms-viewport {
+  width: device-width;
+}
+
+// Ensures page width is always >=320px.
+@include media('>=xs') {
+  html,
+  body {
+    min-width: 320px;
+  }
+}
+
+// Set box model to border-box.
+// Based on css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: v(colour-primary);
+  color: v(colour-text);
+
+  // MSIE: Prevents scrollbar from overlapping content.
+  -ms-overflow-style: scrollbar;
+}
+
+a {
+  color: v(colour-accent-dark);
+  @include darkmode {
+    color: v(colour-accent);
+  }
+  @include call-to-action {
+    color: v(colour-accent);
+    @include darkmode {
+      color: lighten(_dark-colour(accent), 3%);
+    }
+  }
+}
