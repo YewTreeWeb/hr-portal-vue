@@ -1,5 +1,0 @@
-.container:not(.is-max-desktop):not(.is-max-widescreen) {
-  @include media('screen', '>=2880px') {
-    max-width: 2314px;
-  }
-}
