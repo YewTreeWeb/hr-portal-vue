@@ -1,15 +1,5 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
-  </div>
-</template>
-
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
-=======
     <Sidebar :title="title" />
     <main class="main">
       <Header />
@@ -48,13 +38,9 @@ import LeaveLog from "./components/LeaveLog";
 import LeaveRequest from "./components/LeaveRequest";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
->>>>>>> 03610cb9d3012a62efb11b23681e924c7f19e8e5
 
 @Component({
   components: {
-<<<<<<< HEAD
-    HelloWorld
-=======
     Hero,
     Leave,
     LeaveLog,
@@ -204,7 +190,6 @@ import Header from "./components/Header";
           console.error(error);
         }
       });
->>>>>>> 03610cb9d3012a62efb11b23681e924c7f19e8e5
   }
 })
 export default class App extends Vue {}
@@ -215,11 +200,6 @@ export default class App extends Vue {}
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-<<<<<<< HEAD
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-=======
   color: inherit;
   min-height: 100vh;
   @each $heading, $size in $headings {
@@ -241,6 +221,5 @@ export default class App extends Vue {}
     width: 100%;
     min-height: 100vh;
   }
->>>>>>> 03610cb9d3012a62efb11b23681e924c7f19e8e5
 }
 </style>
