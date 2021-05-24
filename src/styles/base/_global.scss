@@ -30,16 +30,3 @@ body {
   // MSIE: Prevents scrollbar from overlapping content.
   -ms-overflow-style: scrollbar;
 }
-
-a {
-  color: v(colour-accent-dark);
-  @include darkmode {
-    color: v(colour-accent);
-  }
-  @include call-to-action {
-    color: v(colour-accent);
-    @include darkmode {
-      color: lighten(_dark-colour(accent), 3%);
-    }
-  }
-}
