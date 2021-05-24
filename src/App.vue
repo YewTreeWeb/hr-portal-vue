@@ -39,43 +39,7 @@ import LeaveRequest from "./components/LeaveRequest";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 
-export default {
-  name: "App",
-  data() {
-    return {
-      title: "HRPortal",
-      leaveStartDate: "1-4", // Day and month
-      companyLeave: [
-        {
-          type: "annual",
-          available: 25,
-          approved: 0,
-          declined: 0,
-          remaining: 25
-        },
-        {
-          type: "birthday",
-          available: 1,
-          approved: 0,
-          declined: 0,
-          remaining: 1
-        },
-        {
-          type: "sick",
-          days: 0
-        },
-        {
-          type: "medical",
-          days: 0
-        }
-      ],
-      leaveRequests: [],
-      localStorageKey: false,
-      error: "",
-      notification: "",
-      darkmode: true
-    };
-  },
+@Component({
   components: {
     Hero,
     Leave,
@@ -227,12 +191,13 @@ export default {
         }
       });
   }
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
 #app {
-  font-family: $font-family;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: inherit;
