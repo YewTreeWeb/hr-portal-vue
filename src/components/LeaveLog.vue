@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      title: "Leave Request Log",
+      title: "Leave",
       days: "",
       status: "",
       editied: false

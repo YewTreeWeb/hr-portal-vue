@@ -2,8 +2,8 @@
   <div id="app">
     <Sidebar :title="title" />
     <main class="main">
+      <Header />
       <section class="container">
-        <h2 id="top" class="m-b-38">Dashboard</h2>
         <div class="columns">
           <div class="column is-9-desktop">
             <Hero />
@@ -37,14 +37,52 @@ import Leave from "./components/Leave";
 import LeaveLog from "./components/LeaveLog";
 import LeaveRequest from "./components/LeaveRequest";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
-@Component({
+export default {
+  name: "App",
+  data() {
+    return {
+      title: "HRPortal",
+      leaveStartDate: "1-4", // Day and month
+      companyLeave: [
+        {
+          type: "annual",
+          available: 25,
+          approved: 0,
+          declined: 0,
+          remaining: 25
+        },
+        {
+          type: "birthday",
+          available: 1,
+          approved: 0,
+          declined: 0,
+          remaining: 1
+        },
+        {
+          type: "sick",
+          days: 0
+        },
+        {
+          type: "medical",
+          days: 0
+        }
+      ],
+      leaveRequests: [],
+      localStorageKey: false,
+      error: "",
+      notification: "",
+      darkmode: true
+    };
+  },
   components: {
     Hero,
     Leave,
     LeaveLog,
     LeaveRequest,
-    Sidebar
+    Sidebar,
+    Header
   },
   methods: {
     updateValues(el) {
@@ -189,13 +227,12 @@ import Sidebar from "./components/Sidebar";
         }
       });
   }
-})
-export default class App extends Vue {}
+};
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: inherit;
@@ -218,10 +255,6 @@ export default class App extends Vue {}
     @include padding(40px null 60px);
     width: 100%;
     min-height: 100vh;
-    h2 {
-      font-size: _heading(h1);
-      line-height: 1;
-    }
   }
 }
 </style>
