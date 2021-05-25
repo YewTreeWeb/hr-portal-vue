@@ -11,7 +11,7 @@
             class="request section"
             :class="{
               'request--offset': index % 2,
-              'request--editied': editied
+              'request--editied': editied,
             }"
             v-for="(request, index) in this.leaveRequests"
             :key="index"
@@ -69,14 +69,14 @@ export default {
   name: "LeaveLog",
   props: {
     leaveRequests: Array,
-    error: String
+    error: String,
   },
   data() {
     return {
       title: "Leave",
       days: "",
       status: "",
-      editied: false
+      editied: false,
     };
   },
   methods: {
@@ -89,7 +89,7 @@ export default {
       // add exisiting values to data properties
       console.log({
         days: `origin value ${this.days}`,
-        status: `origin value ${this.status}`
+        status: `origin value ${this.status}`,
       });
 
       console.log(e.target);
@@ -114,14 +114,14 @@ export default {
       this.$emit("update", {
         id,
         days: this.$refs.days[0].textContent.trim(),
-        status: this.$refs.status[0].textContent.trim()
+        status: this.$refs.status[0].textContent.trim(),
       });
       this.editied = false;
     },
     deleteLog(id) {
       this.$emit("delete", { id });
-    }
-  }
+    },
+  },
 };
 </script>
 

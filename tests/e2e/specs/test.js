@@ -11,9 +11,7 @@ describe("My First Test", () => {
       .type("2020-01-01")
       .should("have.value", "2020-01-01");
     // Get days input, add a number and check the number
-    cy.get('input[type="number"]')
-      .type("1")
-      .should("have.value", "1");
+    cy.get('input[type="number"]').type("1").should("have.value", "1");
     // Get leave type select, select an option and selected value
     cy.get('select[name="leaveType"]')
       .select("Annual Leave")
@@ -32,14 +30,8 @@ describe("My First Test", () => {
     cy.get(".leave .leave__remaining").contains("24");
   });
   it("Change request days and status", () => {
-    cy.get("#request-0 .request__days")
-      .click()
-      .clear()
-      .type("2");
-    cy.get("#request-0 .request__status")
-      .click()
-      .clear()
-      .type("declined");
+    cy.get("#request-0 .request__days").click().clear().type("2");
+    cy.get("#request-0 .request__status").click().clear().type("declined");
   });
   it("Update request status from approved to declined and 1 day to 2 days", () => {
     cy.get("#request-0 .request__update").click();

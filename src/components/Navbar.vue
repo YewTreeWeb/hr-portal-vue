@@ -25,28 +25,26 @@ export default {
         {
           link: "https://imimobile.bamboohr.com/home/",
           text: "Company HR",
-          type: "external"
+          type: "external",
         },
         {
-          link:
-            "https://4594701.app.netsuite.com/app/center/card.nl?sc=-46&whence=",
+          link: "https://4594701.app.netsuite.com/app/center/card.nl?sc=-46&whence=",
           text: "Expenses",
-          type: "external"
+          type: "external",
         },
         {
-          link:
-            "https://imimobileplc.sharepoint.com/sites/TextlocalUK/Technical/SitePages/Home.aspx?RootFolder=%2Fsites%2FTextlocalUK%2FTechnical%2FShared%20Documents%2FSprint%20Demo%20Recordings&FolderCTID=0x012000118CE2AEC170EE45AFC0F28F5B37CCA0&View=%7BD59EC08D%2D9CA4%2D4495%2DAED2%2DDD49B88AC2FE%7D#",
+          link: "https://imimobileplc.sharepoint.com/sites/TextlocalUK/Technical/SitePages/Home.aspx?RootFolder=%2Fsites%2FTextlocalUK%2FTechnical%2FShared%20Documents%2FSprint%20Demo%20Recordings&FolderCTID=0x012000118CE2AEC170EE45AFC0F28F5B37CCA0&View=%7BD59EC08D%2D9CA4%2D4495%2DAED2%2DDD49B88AC2FE%7D#",
           text: "File Hub",
-          type: "external"
+          type: "external",
         },
         {
           link: "https://imimobile.perkbox.com/perks/",
           text: "Perks",
-          type: "external"
-        }
-      ]
+          type: "external",
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 

@@ -16,11 +16,11 @@ import Navbar from "./Navbar";
 export default {
   name: "Sidebar",
   props: {
-    title: String
+    title: String,
   },
   components: {
-    Navbar
-  }
+    Navbar,
+  },
 };
 </script>
 

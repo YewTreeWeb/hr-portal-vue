@@ -97,12 +97,9 @@
 </template>
 
 <script>
-import localforage from "localforage";
+// import localforage from "localforage";
 export default {
   name: "LeaveRequest",
-  props: {
-    leaveRequests: Array
-  },
   data() {
     return {
       title: "Request Leave",
@@ -114,17 +111,18 @@ export default {
       errors: {
         submit: false,
         input: false,
-        select: false
-      }
+        select: false,
+      },
     };
   },
   methods: {
     formSubmit(days, type, status) {
       if (this.days !== "" && this.type !== "null" && this.status !== "null") {
         this.$emit("submittedValues", {
+          id: (this.id += 1),
           days,
           type,
-          status
+          status,
         });
       }
     },
@@ -135,17 +133,11 @@ export default {
         this.type !== "null" &&
         this.status !== "null"
       ) {
-        const formValues = {
-          id: this.id,
-          submitted: this.date,
-          days: this.days,
-          type: this.type,
-          status: this.status
-        };
-        this.leaveRequests.push(formValues);
-        localforage.setItem("formValues", this.leaveRequests);
+        // this.leaveRequests.push(formValues);
+        // this.$emit("leaveRequests", formValues);
+        console.log(payload);
+        // localforage.setItem("formValues", this.leaveRequests);
         payload.target.reset();
-        this.id += 1;
       } else {
         this.errors.submit = !this.errors.submit;
       }
@@ -165,8 +157,8 @@ export default {
       } else {
         this.errors.select = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

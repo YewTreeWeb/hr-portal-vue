@@ -15,10 +15,7 @@
             />
           </div>
           <div class="column is-3-desktop p-l-30">
-            <LeaveRequest
-              :leaveRequests="leaveRequests"
-              @submittedValues="formSubmitted"
-            />
+            <LeaveRequest @submittedValues="formSubmitted" />
           </div>
         </div>
       </section>
@@ -51,29 +48,29 @@ export default {
           available: 25,
           approved: 0,
           declined: 0,
-          remaining: 25
+          remaining: 25,
         },
         {
           type: "birthday",
           available: 1,
           approved: 0,
           declined: 0,
-          remaining: 1
+          remaining: 1,
         },
         {
           type: "sick",
-          days: 0
+          days: 0,
         },
         {
           type: "medical",
-          days: 0
-        }
+          days: 0,
+        },
       ],
       leaveRequests: [],
       localStorageKey: false,
       error: "",
       notification: "",
-      darkmode: true
+      darkmode: true,
     };
   },
   components: {
@@ -82,7 +79,7 @@ export default {
     LeaveLog,
     LeaveRequest,
     Sidebar,
-    Header
+    Header,
   },
   methods: {
     updateValues(el) {
@@ -105,17 +102,18 @@ export default {
       }
     },
     formSubmitted(payload) {
-      console.log(payload);
+      this.leaveRequests.push(payload);
+      localforage.setItem("formValues", this.leaveRequests);
       this.updateValues(payload);
     },
     deleteRequest(payload) {
-      this.leaveRequests = this.leaveRequests.filter(request => {
+      this.leaveRequests = this.leaveRequests.filter((request) => {
         return request.id !== payload.id;
       });
       localforage.setItem("formValues", this.leaveRequests);
     },
     updateRequest(payload) {
-      this.leaveRequests.forEach(request => {
+      this.leaveRequests.forEach((request) => {
         if (request.id === payload.id) {
           if (request.days !== payload.days && payload.days !== "") {
             request.days = payload.days;
@@ -163,21 +161,22 @@ export default {
             console.log("Database is now empty.");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // This code runs if there were any errors
           if (window.console) {
             console.error(error);
           }
         });
-    }
+    },
   },
   async mounted() {
     this.checkStoredKey()
       .then(() => {
         if (typeof localStorage !== "undefined" && this.localStorageKey) {
           const savedRequests = async () => {
-            const currentDate = `${new Date().getDate()}-${new Date().getMonth() +
-              1}`;
+            const currentDate = `${new Date().getDate()}-${
+              new Date().getMonth() + 1
+            }`;
             let savedRequest;
 
             if (currentDate !== this.leaveStartDate) {
@@ -195,9 +194,9 @@ export default {
             return savedRequest;
           };
           savedRequests()
-            .then(values => {
+            .then((values) => {
               const savedValues = values;
-              savedValues.forEach(saved => {
+              savedValues.forEach((saved) => {
                 this.leaveRequests.push(saved);
               });
               if (process.env.NODE_ENV !== "production" && window.console) {
@@ -208,12 +207,12 @@ export default {
               // Get the saved requests and update the companyLeave values
               if (this.leaveRequests.length > 0) {
                 console.log(this.leaveRequests);
-                this.leaveRequests.forEach(request => {
+                this.leaveRequests.forEach((request) => {
                   this.updateValues(request);
                 });
               }
             })
-            .catch(error => {
+            .catch((error) => {
               this.error = error.message;
               if (window.console) {
                 console.error(error);
@@ -221,12 +220,12 @@ export default {
             });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (window.console) {
           console.error(error);
         }
       });
-  }
+  },
 };
 </script>
 

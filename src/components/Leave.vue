@@ -4,7 +4,7 @@
       class="column"
       :class="{
         'm-r-15': index === 0,
-        'm-r-15 m-l-15': index % 2
+        'm-r-15 m-l-15': index % 2,
       }"
       v-for="(leave, index) in filterdTypes"
       :key="index"
@@ -59,27 +59,27 @@
 export default {
   name: "Leave",
   props: {
-    companyLeave: Array
+    companyLeave: Array,
   },
   data() {
     return {
-      title: "Company Leave Amounts"
+      title: "Company Leave Amounts",
     };
   },
   computed: {
     filterdTypes() {
-      return this.companyLeave.filter(leave => {
+      return this.companyLeave.filter((leave) => {
         return leave.type !== "sick" && leave.type !== "medical";
       });
-    }
+    },
   },
   filters: {
-    capitalise: string => {
+    capitalise: (string) => {
       const capitalFirst = string.charAt(0).toUpperCase();
       const noCaseTail = string.slice(1, string.length);
       return capitalFirst + noCaseTail;
-    }
-  }
+    },
+  },
 };
 </script>
 

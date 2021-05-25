@@ -9,9 +9,9 @@ export default {
   name: "Header",
   data() {
     return {
-      title: "Dashboard"
+      title: "Dashboard",
     };
-  }
+  },
 };
 </script>
 
