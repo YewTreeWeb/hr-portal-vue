@@ -1,44 +1,27 @@
 <template>
-  <aside class="sidebar">
-    <header>
+  <aside class="text-primary-100 pt-6 px-[2%] pb-16 max-w-[453px] w-full min-h-screen">
+    <header class="flex items-center justify-start">
       <img
         src="../assets/Logo.svg"
         alt="An calender icon with the pages turning"
+        class="mr-[4%]"
       />
-      <h1>{{ title }}</h1>
+      <h1 class="text-primary-100">{{ title }}</h1>
     </header>
     <Navbar />
   </aside>
 </template>
 
-<script>
-import Navbar from "./Navbar";
-export default {
-  name: "Sidebar",
-  props: {
-    title: String,
-  },
-  components: {
-    Navbar,
-  },
-};
+<script setup>
+import Navbar from "./Navbar.vue";
+
+defineProps({
+  title: String,
+})
 </script>
 
-<style lang="scss">
-.sidebar {
-  color: v(colour-white);
-  @include padding(25.4px 2% 60px);
-  max-width: 453px;
-  width: 100%;
-  min-height: 100vh;
-  a {
-    color: inherit;
-  }
-  header {
-    @include flex(center, flex-start, row);
-    img {
-      margin-right: 4%;
-    }
-  }
+<style scoped>
+a {
+  color: inherit;
 }
 </style>

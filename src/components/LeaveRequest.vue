@@ -1,93 +1,91 @@
 <template>
-  <div class="card">
-    <h2>{{ title }}</h2>
-    <form id="addLeave" @submit.prevent="submitRequest">
-      <div class="field">
-        <label class="label">Date Submitted</label>
-        <div class="control">
+  <div class="bg-white rounded-lg shadow-lg p-6 h-full">
+    <h2 class="text-xl font-semibold text-dark-800 mb-6">{{ title }}</h2>
+    <form class="mt-7" @submit.prevent="submitRequest">
+      <div class="space-y-4 w-full">
+        <div>
+          <label class="block text-sm font-medium text-dark-700 mb-2">Date Submitted</label>
           <input
             type="date"
-            class="input"
+            class="w-full px-3 py-2 border border-primary-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
             name="submitted"
-            value=""
             placeholder="Add submitted date"
             v-model="date"
             @blur="validateInput"
           />
+          <p class="text-xs text-dark-500 mt-1 mb-4">The date the leave was submitted to manager</p>
         </div>
-        <p class="help">The date the leave was submitted to manager</p>
-        <label class="label">Days</label>
-        <div class="control">
+
+        <div>
+          <label class="block text-sm font-medium text-dark-700 mb-2">Days</label>
           <input
             type="number"
-            class="input"
+            class="w-full px-3 py-2 border border-primary-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
             name="amount"
             step="any"
             min="1"
-            value=""
             placeholder="Number of days"
             v-model="days"
             @blur="validateInput"
           />
+          <p class="text-xs text-dark-500 mt-1 mb-4">The amount of leave days requested</p>
         </div>
-        <p class="help">The amount of leave days requested</p>
       </div>
-      <div class="field">
-        <label class="label">Leave Type</label>
-        <div class="control">
-          <div class="select">
-            <select name="leaveType" v-model="type" @change="validateSelect">
-              <option v-bind:value="'null'" selected="selected">
-                Choose type of leave
-              </option>
-              <option v-bind:value="'annual'">Annual Leave</option>
-              <option v-bind:value="'birthday'">Birthday Leave</option>
-              <option v-bind:value="'sick'">Sick Leave</option>
-              <option v-bind:value="'medical'">Medical Leave</option>
-            </select>
-          </div>
-        </div>
-        <p class="help">What type of leave was requested?</p>
-        <label class="label">Outcome</label>
-        <div class="control">
-          <div class="select">
-            <select
-              name="leaveOutcome"
-              v-model="status"
-              @change="validateSelect"
-            >
-              <option v-bind:value="'null'" selected="selected">
-                Choose outcome of request
-              </option>
-              <option v-bind:value="'approved'">Approved</option>
-              <option v-bind:value="'pending'">Pending</option>
-              <option v-bind:value="'declined'">Declined</option>
-            </select>
-          </div>
-        </div>
-        <p class="help">
-          Has the leave request been approved/denied or still wating reponse?
-        </p>
-      </div>
-      <div class="field">
-        <div class="control">
-          <button
-            class="button is-primary"
-            type="submit"
-            @click="formSubmit(days, type, status)"
+
+      <div class="space-y-4 w-full">
+        <div>
+          <label class="block text-sm font-medium text-dark-700 mb-2">Leave Type</label>
+          <select
+            name="leaveType"
+            v-model="type"
+            @change="validateSelect"
+            class="w-full px-3 py-2 border border-primary-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            Submit
-          </button>
+            <option value="null">Choose type of leave</option>
+            <option value="annual">Annual Leave</option>
+            <option value="birthday">Birthday Leave</option>
+            <option value="sick">Sick Leave</option>
+            <option value="medical">Medical Leave</option>
+          </select>
+          <p class="text-xs text-dark-500 mt-1 mb-4">What type of leave was requested?</p>
         </div>
-        <ul class="errors" v-if="this.errors">
-          <li v-if="errors.submit">
+
+        <div>
+          <label class="block text-sm font-medium text-dark-700 mb-2">Outcome</label>
+          <select
+            name="leaveOutcome"
+            v-model="status"
+            @change="validateSelect"
+            class="w-full px-3 py-2 border border-primary-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+          >
+            <option value="null">Choose outcome of request</option>
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+            <option value="declined">Declined</option>
+          </select>
+          <p class="text-xs text-dark-500 mt-1 mb-4">
+            Has the leave request been approved/denied or still waiting response?
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <button
+          class="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
+          type="submit"
+          @click="formSubmit(days, type, status)"
+        >
+          Submit
+        </button>
+
+        <ul class="mt-4 space-y-1" v-if="hasErrors">
+          <li v-if="errors.submit" class="text-error text-sm">
             ERROR! Please submit valid data. E.g Do not leave blank fields
           </li>
-          <li v-if="errors.input">
-            ERROR! Please enter valid data into the input field. E.g Do not
-            leave blank
+          <li v-if="errors.input" class="text-error text-sm">
+            ERROR! Please enter valid data into the input field. E.g Do not leave blank
           </li>
-          <li v-if="errors.select">
+          <li v-if="errors.select" class="text-error text-sm">
             ERROR! Please select a valid option. E.g Do not leave default option
           </li>
         </ul>
@@ -96,89 +94,67 @@
   </div>
 </template>
 
-<script>
-// import localforage from "localforage";
-export default {
-  name: "LeaveRequest",
-  data() {
-    return {
-      title: "Request Leave",
-      id: 0,
-      date: "",
-      days: "",
-      type: "",
-      status: "",
-      errors: {
-        submit: false,
-        input: false,
-        select: false,
-      },
-    };
-  },
-  methods: {
-    formSubmit(days, type, status) {
-      if (this.days !== "" && this.type !== "null" && this.status !== "null") {
-        this.$emit("submittedValues", {
-          id: (this.id += 1),
-          days,
-          type,
-          status,
-        });
-      }
-    },
-    submitRequest(payload) {
-      if (
-        this.date !== "" &&
-        this.days !== "" &&
-        this.type !== "null" &&
-        this.status !== "null"
-      ) {
-        // this.leaveRequests.push(formValues);
-        // this.$emit("leaveRequests", formValues);
-        console.log(payload);
-        // localforage.setItem("formValues", this.leaveRequests);
-        payload.target.reset();
-      } else {
-        this.errors.submit = !this.errors.submit;
-      }
-    },
-    validateInput() {
-      this.errors.submit = false;
-      if (this.date === "" || this.days === "") {
-        this.errors.input = !this.errors.input;
-      } else {
-        this.errors.input = false;
-      }
-    },
-    validateSelect() {
-      this.errors.submit = false;
-      if (this.type === "null" || this.status === "null") {
-        this.errors.select = !this.errors.select;
-      } else {
-        this.errors.select = false;
-      }
-    },
-  },
-};
-</script>
+<script setup>
+import { computed, ref } from 'vue'
 
-<style lang="scss" scoped>
-.card {
-  height: 100%;
-}
-#addLeave {
-  @include margin(30px null);
-  .field {
-    width: 100%;
-    .help {
-      @include margin(null null 15px);
-    }
+const title = ref('Request Leave')
+const id = ref(0)
+const date = ref('')
+const days = ref('')
+const type = ref('null')
+const status = ref('null')
+const errors = ref({
+  submit: false,
+  input: false,
+  select: false,
+})
+
+const emit = defineEmits(['submittedValues'])
+
+const hasErrors = computed(() => {
+  return errors.value.submit || errors.value.input || errors.value.select
+})
+
+const formSubmit = (days, type, status) => {
+  if (days !== "" && type !== "null" && status !== "null") {
+    emit("submittedValues", {
+      id: (id.value += 1),
+      days,
+      type,
+      status,
+    })
   }
 }
-.errors {
-  color: v(colour-error);
-  > li {
-    color: inherit;
+
+const submitRequest = (payload) => {
+  if (
+    date.value !== "" &&
+    days.value !== "" &&
+    type.value !== "null" &&
+    status.value !== "null"
+  ) {
+    console.log(payload)
+    payload.target.reset()
+  } else {
+    errors.value.submit = !errors.value.submit
   }
 }
-</style>
+
+const validateInput = () => {
+  errors.value.submit = false
+  if (date.value === "" || days.value === "") {
+    errors.value.input = !errors.value.input
+  } else {
+    errors.value.input = false
+  }
+}
+
+const validateSelect = () => {
+  errors.value.submit = false
+  if (type.value === "null" || status.value === "null") {
+    errors.value.select = !errors.value.select
+  } else {
+    errors.value.select = false
+  }
+}
+</script>

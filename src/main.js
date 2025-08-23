@@ -1,11 +1,12 @@
-import "airbnb-browser-shims";
-import Vue from "vue";
-import App from "./App.vue";
-import "./registerServiceWorker";
-import "./styles/main.scss";
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import './style.css'
 
-Vue.config.productionTip = false;
+const app = createApp(App)
 
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
+app.use(createPinia())
+app.use(router)
+
+app.mount('#app')

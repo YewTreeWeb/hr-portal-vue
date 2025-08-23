@@ -1,28 +1,25 @@
 <template>
-  <header>
-    <p>{{ title }}</p>
+  <header class="mb-10">
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-bold font-header text-dark-800 leading-tight">
+        {{ title }}
+      </h1>
+      <button
+        @click="hrStore.toggleDarkMode"
+        class="p-2 rounded-lg bg-primary-200 hover:bg-primary-300 transition-colors"
+        :class="{ 'bg-dark-600 hover:bg-dark-500': hrStore.darkmode }"
+      >
+        <span v-if="hrStore.darkmode" class="text-primary-100">☀️</span>
+        <span v-else class="text-dark-800">🌙</span>
+      </button>
+    </div>
   </header>
 </template>
 
-<script>
-export default {
-  name: "Header",
-  data() {
-    return {
-      title: "Dashboard",
-    };
-  },
-};
-</script>
+<script setup>
+import { useHrStore } from '@/stores/hr'
+import { ref } from 'vue'
 
-<style lang="scss">
-header {
-  margin-bottom: 38px;
-  > p {
-    font-size: _heading(h1);
-    line-height: 1;
-    font-family: $font-family-header;
-    font-weight: $weight-heavy;
-  }
-}
-</style>
+const title = ref('Dashboard')
+const hrStore = useHrStore()
+</script>
