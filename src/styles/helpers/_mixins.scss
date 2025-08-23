@@ -1,4 +1,4 @@
-@use "sass:meta";
+/* SCSS Mixins File */
 
 /// Vendor prefixes
 @mixin prefix($property, $value, $vendors: webkit moz ms o, $default: true) {
@@ -126,37 +126,6 @@
   backface-visibility: hidden;
   will-change: $will-change;
   perspective: $perspective;
-}
-
-/// Add retina media query.
-@mixin retina($ratio) {
-  @if map-has-key($ratios, #{'2x'}) or
-    map-has-key($ratios, #{'1-2x'}) or
-    map-has-key($ratios, #{'1-3x'}) or
-    map-has-key($ratios, #{'1-5x'})
-  {
-    $ratio: map-get($ratios, $ratio);
-
-    @media only screen and (-webkit-min-device-pixel-ratio: nth($ratio, 1)),
-    only screen and (min--moz-device-pixel-ratio: nth($ratio, 1)),
-    only screen and (-o-min-device-pixel-ratio: #{nth($ratio, 1)}/1),
-    only screen and (min-device-pixel-ratio: nth($ratio, 1)),
-    only screen and (min-resolution: #{nth($ratio, 2)}dpi),
-    only screen and (min-resolution: #{nth($ratio, 1)}dppx) {
-      @content;
-    }
-  } @else {
-    @warn "There were no keys that match! Using default 2x ratio.";
-
-    @media only screen and (-webkit-min-device-pixel-ratio: 2),
-      only screen and (min--moz-device-pixel-ratio: 2),
-      only screen and (-o-min-device-pixel-ratio: 2/1),
-      only screen and (min-device-pixel-ratio: 2),
-      only screen and (min-resolution: 192dpi),
-      only screen and (min-resolution: 2dppx) {
-      @content;
-    }
-  }
 }
 
 /// Adding Truncation.
@@ -540,6 +509,129 @@
 
       @media screen and (min-width: $fs-breakpoint) {
         @include make-font-size($fs-font-size);
+      }
+    }
+  }
+}
+
+/// Size mixin for width and height
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+/// Padding mixin with null value support
+@mixin padding($values...) {
+  $padding-values: ();
+
+  @each $value in $values {
+    @if $value == null {
+      $padding-values: append($padding-values, 0);
+    } @else {
+      $padding-values: append($padding-values, $value);
+    }
+  }
+
+  padding: $padding-values;
+}
+
+/// Margin mixin with null value support
+@mixin margin($values...) {
+  $margin-values: ();
+
+  @each $value in $values {
+    @if $value == null {
+      $margin-values: append($margin-values, 0);
+    } @else {
+      $margin-values: append($margin-values, $value);
+    }
+  }
+
+  margin: $margin-values;
+}
+
+/// Media query mixin - comprehensive implementation
+@mixin media($media-type: null, $query: null) {
+  // Handle two-argument calls like media('screen', '>=2880px')
+  @if $media-type != null and $query != null {
+    $final-query: $query;
+
+    // Parse the query part
+    @if str-slice($query, 1, 2) == '>=' {
+      $breakpoint: str-slice($query, 3);
+      @media #{$media-type} and (min-width: #{$breakpoint}) { @content; }
+    } @else if str-slice($query, 1, 2) == '<=' {
+      $breakpoint: str-slice($query, 3);
+      @media #{$media-type} and (max-width: #{$breakpoint}) { @content; }
+    } @else if str-slice($query, 1, 1) == '>' {
+      $breakpoint: str-slice($query, 2);
+      @media #{$media-type} and (min-width: #{$breakpoint}) { @content; }
+    } @else if str-slice($query, 1, 1) == '<' {
+      $breakpoint: str-slice($query, 2);
+      @media #{$media-type} and (max-width: #{$breakpoint}) { @content; }
+    } @else {
+      @media #{$media-type} and (#{$query}) { @content; }
+    }
+  } @else {
+    // Handle single-argument calls - use first argument as query
+    $single-query: if($media-type != null, $media-type, $query);
+
+    // Handle breakpoint queries with operators
+    @if str-slice($single-query, 1, 2) == '>=' {
+      $breakpoint: str-slice($single-query, 3);
+
+    @if $breakpoint == 'xs' {
+      @media (min-width: 480px) { @content; }
+    } @else if $breakpoint == 'sm' {
+      @media (min-width: 768px) { @content; }
+    } @else if $breakpoint == 'md' {
+      @media (min-width: 992px) { @content; }
+    } @else if $breakpoint == 'lg' {
+      @media (min-width: 1200px) { @content; }
+    } @else if $breakpoint == 'xl' {
+      @media (min-width: 1400px) { @content; }
+    } @else {
+      // Handle pixel values like >=1024px
+      @media (min-width: #{$breakpoint}) { @content; }
+    }
+    } @else if str-slice($single-query, 1, 2) == '<=' {
+      $breakpoint: str-slice($single-query, 3);
+
+    @if $breakpoint == 'xs' {
+      @media (max-width: 479px) { @content; }
+    } @else if $breakpoint == 'sm' {
+      @media (max-width: 767px) { @content; }
+    } @else if $breakpoint == 'md' {
+      @media (max-width: 991px) { @content; }
+    } @else if $breakpoint == 'lg' {
+      @media (max-width: 1199px) { @content; }
+    } @else if $breakpoint == 'xl' {
+      @media (max-width: 1399px) { @content; }
+    } @else {
+      // Handle pixel values like <=1024px
+      @media (max-width: #{$breakpoint}) { @content; }
+    }
+    } @else if str-slice($single-query, 1, 1) == '>' {
+      $breakpoint: str-slice($single-query, 2);
+      @media (min-width: #{$breakpoint}) { @content; }
+    } @else if str-slice($single-query, 1, 1) == '<' {
+      $breakpoint: str-slice($single-query, 2);
+      @media (max-width: #{$breakpoint}) { @content; }
+    } @else {
+      // Handle direct breakpoint names
+      @if $single-query == 'xs' {
+      @media (max-width: 479px) { @content; }
+      } @else if $single-query == 'sm' {
+        @media (min-width: 480px) and (max-width: 767px) { @content; }
+      } @else if $single-query == 'md' {
+        @media (min-width: 768px) and (max-width: 991px) { @content; }
+      } @else if $single-query == 'lg' {
+        @media (min-width: 992px) and (max-width: 1199px) { @content; }
+      } @else if $single-query == 'xl' {
+        @media (min-width: 1200px) { @content; }
+      } @else {
+        // For any other custom queries, wrap in parentheses for safety
+        @media (#{$single-query}) { @content; }
       }
     }
   }
