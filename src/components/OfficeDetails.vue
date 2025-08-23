@@ -23,14 +23,14 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import mapboxgl from 'mapbox-gl'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 interface Props { darkmode?: boolean }
 const props = defineProps<Props>()
 
 const title: string = 'Office Details'
-const accessToken: string = (import.meta.env.VITE_MAPBOX_ACCESS_TOKEN as string) || ''
-const mapStyle: string = props.darkmode ? 'ckh3mr3vj026u19ro1xqjxw9y' : 'ckh3d7izg2jt019p9s269w8xa'
+// Leaflet does not require an access token; using OpenStreetMap tiles
 
 interface OfficeInfo { area: string; url: string }
 const office: OfficeInfo = { area: 'Malvern Hills Science Park', url: 'https://textlocal.com/' }
@@ -39,15 +39,12 @@ interface LatLng { lat: number; long: number }
 const location: LatLng = { lat: 52.104485, long: -2.311467 }
 
 function createMap(long: number, lat: number): void {
-  mapboxgl.accessToken = accessToken
-  const el: HTMLDivElement = document.createElement('div')
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: `mapbox://styles/matteague/${mapStyle}`,
-    center: [long, lat],
-    zoom: 15,
-  })
-  new mapboxgl.Marker(el).setLngLat([long, lat]).addTo(map)
+  const map = L.map('map', { zoomControl: true }).setView([lat, long], 15)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19,
+  }).addTo(map)
+  L.marker([lat, long]).addTo(map)
 }
 
 onMounted(() => createMap(location.long, location.lat))

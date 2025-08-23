@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="min-h-screen text-current antialiased flex items-start bg-grey-dark dark:bg-black"
+    class="min-h-screen text-current antialiased flex items-start justify-stretch bg-grey-dark dark:bg-black"
   >
     <Sidebar :title="store.title" />
     <main class="bg-primary rounded-[40px_0_0_40px] p-10 w-full min-h-screen">

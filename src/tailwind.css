@@ -38,18 +38,18 @@
 html,
 body,
 #app {
-  height: 100%;
+  @apply min-h-screen;
 }
 body {
   font-family: var(--font-sans);
 }
 
 /* Preserve legacy heading typography */
-h1 {
+/* h1 {
   font-family: var(--font-header);
   font-weight: var(--font-weight-bold);
   font-size: 48px;
-}
+} */
 h2 {
   font-family: var(--font-header);
   font-weight: var(--font-weight-bold);
@@ -158,4 +158,9 @@ h4 {
   .column.is-3-desktop {
     @apply md:col-span-3;
   }
+}
+
+.leaflet-control-attribution,
+.leaflet-control-zoom {
+  display: none;
 }
