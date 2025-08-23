@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* Tailwind v4 CSS-first theme tokens (replacing SCSS variables) */
+@theme {
+  /* Colours */
+  --color-primary: #f8f7f2;
+  --color-secondary: #ffffff;
+  --color-black: #0d0d0d;
+  --color-grey-dark: #262125;
+  --color-grey-darker: #131419;
+  --color-grey-light: #dfe0eb;
+  --color-grey-lighter: #f0f1f7;
+  --color-accent: #88c0d0;
+  --color-accent-dark: #5e81ac;
+  --color-success: #88c0d0;
+  --color-error: #d36b75;
+
+  /* Spacing additions to match legacy utilities */
+  --spacing-15: 15px;
+  --spacing-17: 17px;
+  --spacing-30: 30px;
+  --spacing-35: 35px;
+  --spacing-38: 38px;
+
+  /* Typography */
+  --font-sans: Asap, system-ui, sans-serif;
+  --font-header: Ubuntu, system-ui, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+
+  /* Radius */
+  --radius-app: 40px;
+}
+
+/* Base app styles replacing prior global SCSS */
+html, body, #app {
+  height: 100%;
+}
+body {
+  font-family: var(--font-sans);
+}
+
+/* Preserve legacy heading typography */
+h1 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 48px;
+}
+h2 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 36px;
+}
+h3 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+}
+h4 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+}
