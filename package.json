@@ -10,30 +10,30 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.12",
     "dayjs": "^1.11.13",
-    "idb": "^8.0.0",
-    "idb-keyval": "^6.2.1",
-    "localforage": "^1.10.0",
     "mapbox-gl": "^3.5.2",
-    "pinia": "^2.1.7",
+    "pinia": "^2.3.1",
     "register-service-worker": "^1.7.2",
-    "vue": "^3.5.0"
+    "vue": "^3.5.19"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "@vitejs/plugin-vue": "^5.1.2",
-    "eslint": "^9.10.0",
-    "eslint-plugin-vue": "^9.28.0",
-    "prettier": "^3.3.3",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.2",
-    "vue-tsc": "^2.0.28"
+    "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "eslint": "^9.34.0",
+    "eslint-plugin-vue": "^9.33.0",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.12",
+    "typescript": "^5.9.2",
+    "vite": "^5.4.19",
+    "vue-tsc": "^2.2.12"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "packageManager": "pnpm@10.6.2+sha1.7f417eb782bab712a1a9bd0206887dcee502d03e"
 }

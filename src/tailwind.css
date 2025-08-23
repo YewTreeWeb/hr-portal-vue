@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+/* Tailwind v4 CSS-first theme tokens (replacing SCSS variables) */
+@theme {
+  /* Colours */
+  --color-primary: #f8f7f2;
+  --color-secondary: #ffffff;
+  --color-black: #0d0d0d;
+  --color-grey-dark: #262125;
+  --color-grey-darker: #131419;
+  --color-grey-light: #dfe0eb;
+  --color-grey-lighter: #f0f1f7;
+  --color-accent: #88c0d0;
+  --color-accent-dark: #5e81ac;
+  --color-success: #88c0d0;
+  --color-error: #d36b75;
+  --color-text: #0d0d0d;
+
+  /* Spacing additions to match legacy utilities */
+  --spacing-15: 15px;
+  --spacing-17: 17px;
+  --spacing-30: 30px;
+  --spacing-35: 35px;
+  --spacing-38: 38px;
+
+  /* Typography */
+  --font-sans: Asap, system-ui, sans-serif;
+  --font-header: Ubuntu, system-ui, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+
+  /* Radius */
+  --radius-app: 40px;
+}
+
+/* Base app styles replacing prior global SCSS */
+html,
+body,
+#app {
+  height: 100%;
+}
+body {
+  font-family: var(--font-sans);
+}
+
+/* Preserve legacy heading typography */
+h1 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 48px;
+}
+h2 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 36px;
+}
+h3 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+}
+h4 {
+  font-family: var(--font-header);
+  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+}
+
+/* Component layer to replicate prior SCSS/Bulma styles */
+@layer components {
+  /* Container approximation */
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+
+  /* Card */
+  .card {
+    @apply rounded-lg border border-grey-light bg-secondary/50 dark:bg-grey-darker/40 p-4;
+  }
+
+  /* Buttons */
+  .button {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors;
+  }
+  .button.is-primary {
+    @apply bg-accent text-black hover:bg-accent-dark;
+  }
+  .button.is-text {
+    @apply text-accent hover:text-accent-dark underline-offset-2 hover:underline bg-transparent p-0;
+  }
+
+  /* Forms */
+  .label {
+    @apply block text-sm font-medium mb-1;
+  }
+  .field {
+    @apply mb-4;
+  }
+  .control {
+    @apply mt-1;
+  }
+  .help {
+    @apply text-sm text-black dark:text-white;
+  }
+  .input {
+    @apply block w-full rounded-md border border-grey-light bg-secondary/90 text-black dark:text-white dark:bg-grey-darker px-3 py-2 outline-none focus:ring-2 focus:ring-accent;
+  }
+  .select select {
+    @apply block w-full rounded-md border border-grey-light bg-secondary/90 text-black dark:text-white dark:bg-grey-darker px-3 py-2 outline-none focus:ring-2 focus:ring-accent appearance-none;
+  }
+  /* Equal card helper */
+  .card-equal {
+    @apply h-full min-h-[220px];
+  }
+}
+
+/* Utilities layer: legacy class aliases for spacing and simple grid */
+@layer utilities {
+  /* Spacing aliases (from previous SCSS helpers) */
+  .m-t-15 {
+    margin-top: var(--spacing-15);
+  }
+  .m-t-17 {
+    margin-top: var(--spacing-17);
+  }
+  .m-t-30 {
+    margin-top: var(--spacing-30);
+  }
+  .m-t-35 {
+    margin-top: var(--spacing-35);
+  }
+  .m-t-38 {
+    margin-top: var(--spacing-38);
+  }
+  .m-l-15 {
+    margin-left: var(--spacing-15);
+  }
+  .m-r-15 {
+    margin-right: var(--spacing-15);
+  }
+  .p-l-30 {
+    padding-left: var(--spacing-30);
+  }
+
+  /* Simple Bulma-like grid fallbacks if any remain */
+  .columns {
+    @apply grid grid-cols-1 md:grid-cols-12 gap-6;
+  }
+  .column {
+    @apply col-span-12;
+  }
+  .column.is-12 {
+    @apply col-span-12;
+  }
+  .column.is-9-desktop {
+    @apply md:col-span-9;
+  }
+  .column.is-3-desktop {
+    @apply md:col-span-3;
+  }
+}

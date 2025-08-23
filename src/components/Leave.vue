@@ -1,52 +1,36 @@
 <template>
-  <div class="columns">
-    <div
-      class="column"
-      :class="{
-        'm-r-15': index === 0,
-        'm-r-15 m-l-15': index % 2,
-      }"
-      v-for="(leave, index) in filterdTypes"
-      :key="index"
-    >
-      <article class="card">
-        <h2>{{ leave.type | capitalise }} Leave</h2>
-        <ul class="leave">
-          <li>
-            <span class="leave__available" ref="leaveAvailable">{{
-              leave.available
-            }}</span>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-[15px]">
+    <div v-for="(leave, index) in annualBirthday" :key="`ab-${index}`">
+      <article class="card card-equal">
+        <h2 class="text-2xl font-bold mb-2">{{ capitalise(leave.type) }} Leave</h2>
+        <ul class="mt-5">
+          <li class="my-2 first:font-bold first:text-lg first:mt-0">
+            <span ref="leaveAvailable">{{ leave.available }}</span>
             days available
           </li>
-          <li>
-            <span class="leave__approved" ref="leaveApproved">{{
-              leave.approved
-            }}</span>
+          <li class="my-2">
+            <span ref="leaveApproved">{{ leave.approved }}</span>
             days approved
           </li>
-          <li>
-            <span class="leave__declined" ref="leaveDeclined">{{
-              leave.declined
-            }}</span>
+          <li class="my-2">
+            <span ref="leaveDeclined">{{ leave.declined }}</span>
             days declined
           </li>
-          <li>
-            <span class="leave__remaining" ref="leaveRemaining">{{
-              leave.remaining
-            }}</span>
+          <li class="my-2">
+            <span ref="leaveRemaining">{{ leave.remaining }}</span>
             days remaining
           </li>
         </ul>
       </article>
     </div>
-    <div class="column m-l-15">
-      <article class="card">
-        <h2>Sick & Medical Leave</h2>
-        <ul class="leave">
-          <li v-for="(leave, index) in companyLeave" :key="index">
-            <p v-if="leave.type !== 'birthday' && leave.type !== 'annual'">
+    <div>
+      <article class="card card-equal">
+        <h2 class="text-2xl font-bold mb-2">Sick & Medical Leave</h2>
+        <ul class="mt-5">
+          <li v-for="(leave, index) in sickMedical" :key="`sm-${index}`">
+            <p class="my-2">
               {{ leave.type }}
-              <span class="leave__used" ref="leaveUsed">{{ leave.days }}</span>
+              <span ref="leaveUsed">{{ leave.days }}</span>
             </p>
           </li>
         </ul>
@@ -55,47 +39,41 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Leave",
-  props: {
-    companyLeave: Array,
-  },
-  data() {
-    return {
-      title: "Company Leave Amounts",
-    };
-  },
-  computed: {
-    filterdTypes() {
-      return this.companyLeave.filter((leave) => {
-        return leave.type !== "sick" && leave.type !== "medical";
-      });
-    },
-  },
-  filters: {
-    capitalise: (string) => {
-      const capitalFirst = string.charAt(0).toUpperCase();
-      const noCaseTail = string.slice(1, string.length);
-      return capitalFirst + noCaseTail;
-    },
-  },
-};
-</script>
+<script setup lang="ts">
+import { computed } from 'vue'
+interface CompanyLeaveAnnualBirthday {
+  type: 'annual' | 'birthday'
+  available: number
+  approved: number
+  declined: number
+  remaining: number
+}
 
-<style lang="scss">
-.is-center {
-  text-align: center;
+interface CompanyLeaveCounter {
+  type: 'sick' | 'medical'
+  days: number
 }
-.leave {
-  @include margin(20px null null);
-  > li {
-    @include margin(10px null 5px);
-    &:first-child {
-      font-weight: $weight-heavy;
-      font-size: _heading((h6, 1));
-      margin-top: 0;
-    }
-  }
+
+type CompanyLeave = Array<
+  | CompanyLeaveAnnualBirthday
+  | CompanyLeaveCounter
+>
+
+const props = defineProps<{ companyLeave: CompanyLeave }>()
+
+const title: string = 'Company Leave Amounts'
+
+const annualBirthday = computed<CompanyLeaveAnnualBirthday[]>(() =>
+  props.companyLeave.filter((l): l is CompanyLeaveAnnualBirthday => l.type === 'annual' || l.type === 'birthday')
+)
+
+const sickMedical = computed<CompanyLeaveCounter[]>(() =>
+  props.companyLeave.filter((l): l is CompanyLeaveCounter => l.type === 'sick' || l.type === 'medical')
+)
+
+function capitalise(text: string): string {
+  const capitalFirst: string = text.charAt(0).toUpperCase()
+  const noCaseTail: string = text.slice(1)
+  return capitalFirst + noCaseTail
 }
-</style>
+</script>

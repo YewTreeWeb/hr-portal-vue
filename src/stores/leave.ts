@@ -1,6 +1,4 @@
 import { defineStore } from 'pinia'
-import localforage from 'localforage'
-import { openDB } from 'idb'
 
 export type LeaveType = 'annual' | 'birthday' | 'sick' | 'medical'
 
@@ -57,6 +55,14 @@ export const useLeaveStore = defineStore('leave', {
     darkmode: true,
   }),
   actions: {
+    /** Persist current leaveRequests to localStorage */
+    persistRequests(): void {
+      try {
+        localStorage.setItem('formValues', JSON.stringify(this.leaveRequests))
+      } catch (e) {
+        if (window.console) console.error(e)
+      }
+    },
     /** Update company leave counters based on a request */
     updateValues(el: LeaveRequestItem): void {
       const days: number = Number(el.days)
@@ -80,19 +86,19 @@ export const useLeaveStore = defineStore('leave', {
     /** Add a new request and persist */
     async formSubmitted(payload: LeaveRequestItem): Promise<void> {
       this.leaveRequests.push(payload)
-      await localforage.setItem('formValues', this.leaveRequests)
+      this.persistRequests()
       this.updateValues(payload)
     },
 
     /** Delete a request and persist */
     async deleteRequest(payload: LeaveRequestItem): Promise<void> {
       this.leaveRequests = this.leaveRequests.filter((request) => request.id !== payload.id)
-      await localforage.setItem('formValues', this.leaveRequests)
+      this.persistRequests()
     },
 
     /** Update a request field and persist */
     async updateRequest(payload: Partial<LeaveRequestItem> & Pick<LeaveRequestItem, 'id'>): Promise<void> {
-      this.leaveRequests.forEach((request) => {
+      this.leaveRequests.forEach((request: LeaveRequestItem) => {
         if (request.id === payload.id) {
           if (payload.days !== undefined && request.days !== payload.days) {
             request.days = payload.days
@@ -100,40 +106,32 @@ export const useLeaveStore = defineStore('leave', {
           if (payload.status && request.status !== payload.status) {
             request.status = payload.status
           }
-          if (process.env.NODE_ENV !== 'production' && window.console) {
+          if (import.meta.env.MODE !== 'production' && window.console) {
             console.log(request)
           }
         }
       })
-      await localforage.setItem('formValues', this.leaveRequests)
+      this.persistRequests()
     },
 
-    /** Check if localforage has the key and set local flag */
+    /** Check if storage has the key and set local flag */
     async checkStoredKey(): Promise<void> {
-      const storeName = 'keyvaluepairs'
       const key = 'formValues'
-      const db = await openDB('localforage')
-      if (db.objectStoreNames.contains(storeName)) {
-        const tx = db.transaction(storeName)
-        const store = await tx.objectStore(storeName)
-        const checkKey = await store.get(key)
-        if (checkKey !== undefined) {
-          this.localStorageKey = !this.localStorageKey
-        }
-        if (process.env.NODE_ENV !== 'production' && window.console) {
-          console.log(db.objectStoreNames)
-          console.log({ checkKey })
-          console.log('localkey is', this.localStorageKey)
-        }
+      const check = localStorage.getItem(key)
+      if (check !== null) {
+        this.localStorageKey = true
+      }
+      if (import.meta.env.MODE !== 'production' && window.console) {
+        console.log({ hasKey: this.localStorageKey })
       }
     },
 
     /** Clear storage and reset values for a new year */
     async resetData(): Promise<void> {
       try {
-        await localforage.clear()
+        localStorage.removeItem('formValues')
         this.notification = 'Your company leave has been reset for the start of the new year'
-        if (process.env.NODE_ENV !== 'production' && window.console) {
+        if (import.meta.env.MODE !== 'production' && window.console) {
           console.log('Database is now empty.')
         }
       } catch (error) {
@@ -141,21 +139,21 @@ export const useLeaveStore = defineStore('leave', {
       }
     },
 
-    /** Hydrate store from localforage when app mounts */
-    async hydrateFromLocalforage(): Promise<void> {
+    /** Hydrate store from localStorage when app mounts */
+    async hydrateFromStorage(): Promise<void> {
       try {
         const currentDate = `${new Date().getDate()}-${new Date().getMonth() + 1}`
         let savedRequest: LeaveRequestItem[] | null = null
         if (currentDate !== this.leaveStartDate) {
-          savedRequest = (await localforage.getItem('formValues')) as LeaveRequestItem[] | null
-          if (savedRequest === null) throw new Error("Can't get saved form values.")
+          const raw = localStorage.getItem('formValues')
+          savedRequest = raw ? (JSON.parse(raw) as LeaveRequestItem[]) : []
         } else {
           await this.resetData()
           savedRequest = []
         }
         if (savedRequest) {
           this.leaveRequests = savedRequest
-          this.leaveRequests.forEach((request) => this.updateValues(request))
+          this.leaveRequests.forEach((request: LeaveRequestItem) => this.updateValues(request))
         }
       } catch (e: unknown) {
         this.error = e instanceof Error ? e.message : String(e)

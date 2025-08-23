@@ -1,9 +1,12 @@
 <template>
-  <aside class="sidebar">
-    <header>
+  <aside
+    class="text-white pt-[25.4px] px-[2%] pb-[60px] max-w-[453px] w-full min-h-screen"
+  >
+    <header class="flex items-center justify-start">
       <img
         src="../assets/Logo.svg"
         alt="An calender icon with the pages turning"
+        class="mr-[4%]"
       />
       <h1>{{ title }}</h1>
     </header>
@@ -11,34 +14,11 @@
   </aside>
 </template>
 
-<script>
-import Navbar from "./Navbar";
-export default {
-  name: "Sidebar",
-  props: {
-    title: String,
-  },
-  components: {
-    Navbar,
-  },
-};
-</script>
+<script setup lang="ts">
+import Navbar from "./Navbar.vue";
 
-<style lang="scss">
-.sidebar {
-  color: v(colour-white);
-  @include padding(25.4px 2% 60px);
-  max-width: 453px;
-  width: 100%;
-  min-height: 100vh;
-  a {
-    color: inherit;
-  }
-  header {
-    @include flex(center, flex-start, row);
-    img {
-      margin-right: 4%;
-    }
-  }
+interface SidebarProps {
+  title?: string;
 }
-</style>
+const { title = "HRPortal" } = defineProps<SidebarProps>();
+</script>

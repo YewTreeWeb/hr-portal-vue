@@ -1,28 +1,12 @@
 <template>
-  <header>
-    <p>{{ title }}</p>
+  <header class="mb-[38px]">
+    <p class="text-[48px] leading-none font-bold">{{ title }}</p>
   </header>
 </template>
 
-<script>
-export default {
-  name: "Header",
-  data() {
-    return {
-      title: "Dashboard",
-    };
-  },
-};
+<script setup lang="ts">
+/** Title displayed in the dashboard header */
+const title: string = 'Dashboard'
 </script>
 
-<style lang="scss">
-header {
-  margin-bottom: 38px;
-  > p {
-    font-size: _heading(h1);
-    line-height: 1;
-    font-family: $font-family-header;
-    font-weight: $weight-heavy;
-  }
-}
-</style>
+
