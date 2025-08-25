@@ -40,7 +40,6 @@ const name: string = "Mathew Teague";
 const role: string = "UI Developer";
 const hired: string = "6th July 2020";
 const company: string = "Textlocal";
-// Leaflet does not require an access token for OSM tiles
 
 interface OfficeInfo {
   area: string;
